@@ -36,10 +36,21 @@ export const HealthProvider: React.FC<{ children: React.ReactNode }> = ({childre
 
         init();
 
-        // Check health every 10 minutes (600,000 ms)
-        const intervalId = setInterval(checkBackendHealth, 10 * 60 * 1000);
+        // Check health every 1 minute (60,000 ms) while UI is opened
+        const intervalId = setInterval(checkBackendHealth, 60 * 1000);
 
-        return () => clearInterval(intervalId);
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === "visible") {
+                checkBackendHealth();
+            }
+        };
+
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+
+        return () => {
+            clearInterval(intervalId);
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+        };
     }, []);
 
     return (

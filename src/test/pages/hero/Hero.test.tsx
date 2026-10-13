@@ -6,6 +6,9 @@ import userEvent from "@testing-library/user-event";
 vi.mock("../../../api/v1/services/resume", () => ({
     downloadResume: vi.fn(),
 }));
+vi.mock("../../../contexts/HealthContext", () => ({
+    useHealth: () => ({ isBackendUp: true, isInitialLoading: false }),
+}));
 
 import {Hero} from "../../../pages/hero";
 import {downloadResume} from "../../../api/v1/services/resume";
@@ -66,6 +69,16 @@ describe("Hero", () => {
         await user.click(button);
 
         expect(downloadResume).toHaveBeenCalledTimes(1);
+    });
+
+    test("renders contact me button when backend is up", () => {
+        render(<Hero/>);
+
+        expect(
+            screen.getByRole("link", {
+                name: /contact me/i,
+            })
+        ).toBeInTheDocument();
     });
 
     test("renders hero section", () => {

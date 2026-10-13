@@ -7,4 +7,5 @@ export const API_ENDPOINTS = {
     FILES: '/api/v1/constants',
     FILE: (fileName: string) => `/api/v1/files/${fileName}`,
     HEALTH: '/actuator/health',
+    CONTACT: '/api/v1/contact',
 } as const;

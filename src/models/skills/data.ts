@@ -25,6 +25,10 @@ export const TECHNICAL_EXPERTISE: SkillContent = {
                     level: 80,
                 },
                 {
+                    name: "Spring AI",
+                    level: 70,
+                },
+                {
                     name: "Microservices",
                     level: 82,
                 },

@@ -1,18 +1,27 @@
+html {
+    scroll-behavior: smooth;
+}
+
 .app-container {
     background: var(--color-bg);
 }
 
 
 .main-container {
-    margin-top: 4.5rem;
+    margin-top: var(--nav-height, 3.75rem);
+    padding: var(--island-margin) var(--island-margin) 0 var(--island-margin);
+    display: flex;
+    flex-direction: column;
+    gap: var(--island-margin);
 }
 
 .main_section {
     padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 5vw, 5rem);
-    margin: .3rem;
+    margin: 0;
     border-radius: .8rem;
     background: var(--color-bg-main-components);
     color: var(--color-main-components);
+    scroll-margin-top: calc(var(--nav-height, 3.75rem) + var(--island-margin) + 0.35rem);
 }
 
 .section__eyebrow {
@@ -30,9 +39,28 @@
 }
 
 .section__title-line {
-    background: linear-gradient(90deg, #1769ff, #7b4dff);
+    background: linear-gradient(90deg, #1769ff 0%, #7b4dff 50%, #00d2ff 100%);
+    background-size: 200% 100%;
+    animation: titleLineFlow 4s ease infinite;
     display: block;
     height: 3px;
+    border-radius: 999px;
     margin-bottom: 1.65rem;
     width: 5rem;
+    box-shadow: 0 0 10px rgba(23, 105, 255, 0.4);
+}
+
+@keyframes titleLineFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }

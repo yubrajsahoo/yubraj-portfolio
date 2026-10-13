@@ -4,10 +4,14 @@ import { Skills } from "../../../pages/skills";
 import { TECHNICAL_EXPERTISE } from "../../models/skills.ts";
 
 // Mock the react-icons to prevent errors in the test environment
-vi.mock("react-icons/fa", () => ({
-    FaServer: () => <svg role="img" />,
-    FaCode: () => <svg role="img" />,
-}));
+vi.mock("react-icons/fa", async (importOriginal) => {
+    const actual = await importOriginal<Record<string, unknown>>();
+    return {
+        ...actual,
+        FaServer: () => <svg role="img" />,
+        FaCode: () => <svg role="img" />,
+    };
+});
 
 vi.mock("../models", () => ({
     TECHNICAL_EXPERTISE: {

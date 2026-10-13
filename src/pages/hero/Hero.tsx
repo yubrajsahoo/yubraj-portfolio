@@ -21,7 +21,7 @@ export const Hero = () => {
                                 {HERO_ACTIONS.resumeLabel}
                             </Button>
                         )}
-                        {APP_INFO.config.enableContact && (
+                        {APP_INFO.config.enableContact && isBackendUp && (
                             <Button href={HERO_ACTIONS.contactHref} variant="ghost" outlined radius="circle-1">
                                 {HERO_ACTIONS.contactLabel}
                             </Button>

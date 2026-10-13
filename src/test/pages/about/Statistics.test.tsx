@@ -4,12 +4,16 @@ import { Statistics } from '../../../pages/about';
 import { ABOUT_STATISTICS } from '../../../models';
 
 // Mock the icons
-vi.mock('react-icons/fi', () => ({
-  FiClock: () => <div data-testid="clock-icon"></div>,
-  FiAward: () => <div data-testid="award-icon"></div>,
-  FiLayers: () => <div data-testid="layers-icon"></div>,
-  FiTarget: () => <div data-testid="target-icon"></div>,
-}));
+vi.mock('react-icons/fi', async (importOriginal) => {
+  const actual = await importOriginal<Record<string, unknown>>();
+  return {
+    ...actual,
+    FiClock: () => <div data-testid="clock-icon"></div>,
+    FiAward: () => <div data-testid="award-icon"></div>,
+    FiLayers: () => <div data-testid="layers-icon"></div>,
+    FiTarget: () => <div data-testid="target-icon"></div>,
+  };
+});
 
 describe('Statistics component', () => {
   it('should render the statistics correctly', () => {

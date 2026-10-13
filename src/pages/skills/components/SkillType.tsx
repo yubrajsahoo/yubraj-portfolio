@@ -10,6 +10,18 @@ interface SkillTypeProps {
 }
 
 /**
+ * Returns a CSS modifier class for the skill category.
+ */
+const getCategoryClass = (type: string): string => {
+    const normalized = type.toLowerCase();
+    if (normalized.includes("backend")) return "skill-type--backend";
+    if (normalized.includes("frontend")) return "skill-type--frontend";
+    if (normalized.includes("database")) return "skill-type--database";
+    if (normalized.includes("devops")) return "skill-type--devops";
+    return "";
+};
+
+/**
  * Displays a category of technical skills.
  *
  * @param type - The skill category.
@@ -21,28 +33,39 @@ export const SkillType = ({
                               icon,
                               skills,
                           }: SkillTypeProps) => {
-    return (
-        <article className="skill-type">
-            <div className="d-flex flex-row align-items-center mb-3 gap-2">
-                <Icon
-                    icon={icon}
-                    size={22}
-                    color="var(--color-button-primary)"
-                />
+    const categoryClass = getCategoryClass(type);
 
-                <h3 className="mb-0">
-                    {type}
-                </h3>
+    return (
+        <article className={`skill-type ${categoryClass}`}>
+            <div className="skill-type__header">
+                <div className="skill-type__title-group">
+                    <div className="skill-type__icon-box">
+                        <Icon
+                            icon={icon}
+                            size={22}
+                            color="#548bf4"
+                        />
+                    </div>
+
+                    <h3 className="skill-type__title">
+                        {type}
+                    </h3>
+                </div>
+
+                <span className="skill-type__badge">
+                    {skills.length} {skills.length === 1 ? "Skill" : "Skills"}
+                </span>
             </div>
 
-            <div className="d-flex flex-column gap-1">
+            <div className="skill-type__list">
                 {skills.map((skill) => (
-                    <ProgressBar
-                        key={skill.name}
-                        label={skill.name}
-                        value={skill.level}
-                        showValue={false}
-                    />
+                    <div key={skill.name} className="skill-item">
+                        <ProgressBar
+                            label={skill.name}
+                            value={skill.level}
+                            showValue={true}
+                        />
+                    </div>
                 ))}
             </div>
         </article>
