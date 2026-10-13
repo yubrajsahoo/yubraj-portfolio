@@ -1,6 +1,10 @@
 :root {
     --color-bg: #445371;
 
+    /* Island Layout Spacing */
+    --nav-height: 3.75rem;
+    --island-margin: 0.3rem;
+
     --color-bg-nav: #000;
     --color-nav: #fff;
 

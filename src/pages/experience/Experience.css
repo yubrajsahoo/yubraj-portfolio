@@ -5,6 +5,20 @@
 .experience__item {
     position: relative;
     gap: 2rem;
+    transition: transform 0.25s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .experience__item:hover .experience__role {
+        color: #60a5fa;
+        transition: color 0.2s ease;
+    }
+
+    .experience__item:hover .timeline-dot {
+        background-color: #60a5fa;
+        box-shadow: 0 0 12px rgba(59, 130, 246, 0.7);
+        transform: scale(1.15);
+    }
 }
 
 .experience__timeline-visual {
@@ -20,6 +34,33 @@
     background-color: var(--color-button-primary);
     box-shadow: 0 0 0 4px var(--color-button-ghost-active-bg);
     z-index: 2;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.experience__item:first-child .timeline-dot {
+    position: relative;
+    background-color: #3b82f6;
+}
+
+.experience__item:first-child .timeline-dot::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid #3b82f6;
+    animation: timelineRadar 2.2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    pointer-events: none;
+}
+
+@keyframes timelineRadar {
+    0% {
+        transform: scale(0.9);
+        opacity: 0.9;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
 }
 
 .timeline-line {

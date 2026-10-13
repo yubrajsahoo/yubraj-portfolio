@@ -5,9 +5,13 @@ import userEvent from "@testing-library/user-event";
 import {MOCKED_APP_INFO} from "../../../models/app.ts";
 
 // Mock the data module before importing Logo
-vi.mock("../models", () => ({
-    APP_INFO: MOCKED_APP_INFO,
-}));
+vi.mock("../../../../models", async (importOriginal) => {
+    const actual = await importOriginal<Record<string, unknown>>();
+    return {
+        ...actual,
+        APP_INFO: MOCKED_APP_INFO,
+    };
+});
 
 import {Logo} from "../../../../components/layout/Navbar/Logo";
 

@@ -100,11 +100,32 @@
 .app-btn-primary {
     background: var(--color-button-primary);
     color: var(--color-button-primary-text);
+    position: relative;
+    overflow: hidden;
+}
+
+.app-btn-primary::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -70%;
+    width: 25%;
+    height: 200%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transform: rotate(25deg);
+    transition: none;
+    pointer-events: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
     .app-btn-primary:hover {
         background: var(--color-button-primary-hover);
+        box-shadow: 0 4px 18px rgba(6, 48, 244, 0.4);
+    }
+
+    .app-btn-primary:hover::after {
+        left: 150%;
+        transition: left 0.65s ease-in-out;
     }
 }
 

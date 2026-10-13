@@ -14,6 +14,18 @@
     right: -12rem;
     top: -8rem;
     width: 34rem;
+    animation: heroAmbientGlow 9s ease-in-out infinite alternate;
+}
+
+@keyframes heroAmbientGlow {
+    0% {
+        transform: scale(0.92) translate(0, 0);
+        opacity: 0.75;
+    }
+    100% {
+        transform: scale(1.08) translate(-15px, 15px);
+        opacity: 1;
+    }
 }
 
 .hero-section__content {
@@ -26,11 +38,40 @@
     border: 1px solid rgba(92, 130, 255, .42);
     border-radius: 999px;
     color: #85a6ff;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
     font-size: .78rem;
     font-weight: 700;
     margin-bottom: 1.25rem;
-    padding: .45rem .8rem;
+    padding: .45rem .85rem;
+    box-shadow: 0 0 15px rgba(38, 104, 255, 0.15);
+}
+
+.hero-experience::before {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #3b82f6;
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    animation: experiencePulse 2s infinite;
+}
+
+@keyframes experiencePulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(59, 130, 246, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    }
 }
 
 .hero-greeting {
@@ -40,7 +81,8 @@
 }
 
 .hero-name {
-    background: linear-gradient(90deg, #5b8dff 0%, #fff 46%, #e7e9ff 100%);
+    background: linear-gradient(110deg, #5b8dff 0%, #ffffff 32%, #85a6ff 58%, #ffffff 82%, #5b8dff 100%);
+    background-size: 220% 100%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -49,6 +91,13 @@
     letter-spacing: -.055em;
     line-height: 1.03;
     margin-bottom: .75rem;
+    animation: heroNameShimmer 8s ease-in-out infinite;
+}
+
+@keyframes heroNameShimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .hero-role {
@@ -85,15 +134,16 @@
     display: flex;
     height: 3.5rem;
     justify-content: center;
-    transition: background .3s ease, box-shadow .3s ease, transform .3s ease;
+    transition: background .3s ease, box-shadow .3s ease, transform .3s ease, border-color .3s ease;
     width: 3.5rem;
 }
 
 @media (hover: hover) and (pointer: fine) {
     .technology-item:hover {
         background: var(--color-icon-color-hover);
-        box-shadow: var(--color-icon-color-box-shadow);
-        transform: translateY(-5px);
+        border-color: rgba(92, 130, 255, 0.5);
+        box-shadow: 0 8px 20px rgba(45, 96, 255, 0.35);
+        transform: translateY(-6px) scale(1.05);
     }
 }
 
@@ -118,6 +168,12 @@
     opacity: .58;
     position: absolute;
     width: 78%;
+    animation: avatarGlowPulse 5s ease-in-out infinite alternate;
+}
+
+@keyframes avatarGlowPulse {
+    0% { transform: scale(0.92); opacity: 0.45; }
+    100% { transform: scale(1.08); opacity: 0.68; }
 }
 
 .avatar-container__frame {
@@ -128,9 +184,22 @@
     padding: 1px;
     position: relative;
     transform: rotate(2.2deg);
+    animation: avatarFloat 7s ease-in-out infinite;
     transition: box-shadow .35s ease, transform .35s ease;
     width: min(100%, 30rem);
     z-index: 1;
+}
+
+@keyframes avatarFloat {
+    0% {
+        transform: rotate(2.2deg) translateY(0);
+    }
+    50% {
+        transform: rotate(1.2deg) translateY(-8px);
+    }
+    100% {
+        transform: rotate(2.2deg) translateY(0);
+    }
 }
 
 .avatar-container__frame::after {
@@ -163,16 +232,29 @@
 .avatar-container__orbit--top {
     right: 3%;
     top: 12%;
+    animation: orbitFloatTop 6s ease-in-out infinite alternate;
 }
 
 .avatar-container__orbit--bottom {
     bottom: 12%;
     left: 2%;
     transform: scale(.65);
+    animation: orbitFloatBottom 8s ease-in-out infinite alternate;
+}
+
+@keyframes orbitFloatTop {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-8px) translateX(4px) scale(1.15); box-shadow: 0 0 10px rgba(113, 145, 255, 0.6); }
+}
+
+@keyframes orbitFloatBottom {
+    0% { transform: scale(.65) translateY(0); }
+    100% { transform: scale(.75) translateY(6px) translateX(-4px); box-shadow: 0 0 10px rgba(113, 145, 255, 0.6); }
 }
 
 @media (hover: hover) and (pointer: fine) {
     .avatar-container:hover .avatar-container__frame {
+        animation-play-state: paused;
         box-shadow: 0 2.2rem 4rem rgba(0, 0, 0, .5), 0 0 2.8rem rgba(72, 108, 255, .26);
         transform: rotate(0deg) translateY(-.35rem);
     }
@@ -200,6 +282,7 @@
         box-shadow: none;
         padding: 0;
         transform: none;
+        animation: none;
     }
     .avatar-container__frame::after { display: none; }
 }

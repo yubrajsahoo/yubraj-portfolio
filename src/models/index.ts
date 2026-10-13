@@ -5,3 +5,6 @@ export * from './navbar';
 export * from './skills';
 export * from './technologies';
 export * from './experience';
+export * from './projects';
+export * from './contact';
+export * from './footer';

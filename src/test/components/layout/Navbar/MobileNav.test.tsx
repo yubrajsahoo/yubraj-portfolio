@@ -1,11 +1,26 @@
-import {describe, expect, test} from "vitest";
+import {describe, expect, test, vi} from "vitest";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+
+let mockBackendUp = true;
+
+vi.mock("../../../../contexts/HealthContext", () => ({
+    useHealth: () => ({ isBackendUp: mockBackendUp, isInitialLoading: false }),
+}));
 
 import MobileNav from "../../../../components/layout/Navbar/MobileNav.tsx";
 import {MOCKED_NAV_LINKS} from "../../../models/navbar.ts";
 
 describe("MobileNav", () => {
+    test("does not render contact link and hire me when backend is down", () => {
+        mockBackendUp = false;
+        render(<MobileNav/>);
+
+        expect(screen.queryByText("Contact")).not.toBeInTheDocument();
+        expect(screen.queryByRole("link", {name: /hire me/i})).not.toBeInTheDocument();
+        mockBackendUp = true;
+    });
+
     test("renders logo", () => {
         render(<MobileNav/>);
 

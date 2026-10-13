@@ -2,13 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { GiHamburgerMenu } from "react-icons/gi";
 
-import { APP_INFO, NAV_LINKS } from "../../../models";
+import { APP_INFO, NAV_LINKS, type NavLink } from "../../../models";
 import { Button } from "../../ui";
 import { Logo } from "./Logo";
+import { useHealth } from "../../../contexts/HealthContext.tsx";
 
 interface MobileNavProps {
     activeNavItem?: string;
     onActiveNavItemChange?: (itemId: string) => void;
+    navLinks?: NavLink[];
 }
 
 /**
@@ -24,7 +26,15 @@ interface MobileNavProps {
 const MobileNav = ({
                        activeNavItem: controlledActiveNavItem,
                        onActiveNavItemChange,
+                       navLinks: propNavLinks,
                    }: MobileNavProps) => {
+    const { isBackendUp } = useHealth();
+    const navLinks = propNavLinks ?? NAV_LINKS.filter((item) => {
+        if (item.id === "contact") {
+            return isBackendUp;
+        }
+        return true;
+    });
     const [open, setOpen] = useState(false);
     const [internalActiveNavItem, setInternalActiveNavItem] =
         useState("home");
@@ -180,7 +190,7 @@ const MobileNav = ({
                     open ? "open" : ""
                 }`}
             >
-                {NAV_LINKS.map((item) => (
+                {navLinks.map((item) => (
                     <li key={item.id}>
                         <a
                             href={item.href}
@@ -198,13 +208,13 @@ const MobileNav = ({
                     </li>
                 ))}
 
-                {APP_INFO.config.showHireButton && (
+                {(APP_INFO.config.showHireButton || APP_INFO.config.enableContact) && isBackendUp && (
                     <li>
                         <Button
                             variant="primary"
                             size="sm"
                             radius="circle-1"
-                            href="#hire"
+                            href="#contact"
                             onClick={handleHireMeClick}
                         >
                             Hire Me

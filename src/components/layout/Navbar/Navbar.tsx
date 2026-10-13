@@ -8,6 +8,7 @@ import {useActiveNavItem} from "../../../hooks/useActiveNavItem";
 
 import "./Navbar.css";
 import {Button} from "../../ui";
+import {useHealth} from "../../../contexts/HealthContext.tsx";
 
 /**
  * Navbar component for portfolio
@@ -17,6 +18,7 @@ import {Button} from "../../ui";
  */
 const Navbar = () => {
     const {activeNavItem, setActiveNavItem} = useActiveNavItem();
+    const {isBackendUp} = useHealth();
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     useEffect(() => {
@@ -31,16 +33,27 @@ const Navbar = () => {
         };
     }, []);
 
+    const navLinks = NAV_LINKS.filter((item) => {
+        if (item.id === "contact") {
+            return isBackendUp;
+        }
+        return true;
+    });
+
     return (
         <nav className={`navbar fixed-top nav-color app-components`}>
             <div className={`container-fluid navbar-pad`}>
                 {isMobile ? (
-                    <MobileNav activeNavItem={activeNavItem} onActiveNavItemChange={setActiveNavItem}/>
+                    <MobileNav
+                        activeNavItem={activeNavItem}
+                        onActiveNavItemChange={setActiveNavItem}
+                        navLinks={navLinks}
+                    />
                 ) : (
                     <>
                         <Logo onClick={() => setActiveNavItem("home")}/>
                         <ul className={`navbar-nav flex-row gap-4 ms-auto navbar-pad`}>
-                            {NAV_LINKS.map((item) => (
+                            {navLinks.map((item) => (
                                 <NavItem
                                     key={item.id}
                                     item={item}
@@ -48,8 +61,8 @@ const Navbar = () => {
                                     onClick={() => setActiveNavItem(item.id)}
                                 />
                             ))}
-                            {APP_INFO.config.showHireButton && (
-                                <Button key={`hire`} variant={`primary`} size={`sm`} radius={`circle-1`} href="#hire">
+                            {(APP_INFO.config.showHireButton || APP_INFO.config.enableContact) && isBackendUp && (
+                                <Button key={`hire`} variant={`primary`} size={`sm`} radius={`circle-1`} href="#contact">
                                     Hire Me
                                 </Button>
                             )}

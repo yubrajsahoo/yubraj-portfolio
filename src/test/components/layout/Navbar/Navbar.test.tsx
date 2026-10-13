@@ -1,4 +1,4 @@
-import {describe, test, expect, beforeEach} from "vitest";
+import {describe, test, expect, beforeEach, vi} from "vitest";
 import {
     render,
     screen,
@@ -7,15 +7,30 @@ import {
     waitFor,
 } from "@testing-library/react";
 
+let mockBackendUp = true;
+
+vi.mock("../../../../contexts/HealthContext", () => ({
+    useHealth: () => ({ isBackendUp: mockBackendUp, isInitialLoading: false }),
+}));
+
 import {Navbar} from "../../../../components/layout/Navbar";
 import {MOCKED_NAV_LINKS} from "../../../models/navbar";
 
 describe("Navbar", () => {
     beforeEach(() => {
+        mockBackendUp = true;
         act(() => {
             window.innerWidth = 1024;
             window.dispatchEvent(new Event("resize"));
         });
+    });
+
+    test("does not render contact nav link when backend is down", () => {
+        mockBackendUp = false;
+        render(<Navbar/>);
+
+        expect(screen.queryByRole("link", {name: "Contact"})).not.toBeInTheDocument();
+        expect(screen.queryByText("Hire Me")).not.toBeInTheDocument();
     });
 
     test("renders desktop navbar", () => {

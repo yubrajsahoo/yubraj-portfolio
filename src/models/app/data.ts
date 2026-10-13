@@ -32,13 +32,13 @@ export const APP_INFO: AppInfo = {
             'I build scalable, reliable and user-friendly web applications using modern technologies.',
     },
     config: {
-        showHireButton: false,
+        showHireButton: true,
         enableResume: true,
         enableHero: true,
         enableAbout: true,
         enableSkills: true,
         enableExperience: true,
-        enableProjects: false,
-        enableContact: false,
+        enableProjects: true,
+        enableContact: true,
     },
 };
